@@ -116,8 +116,8 @@
 
                 <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
                     <div class="lg:col-span-2 space-y-4">
-                        <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-[#1c991c]">
-                            <h4 class="text-lg font-bold text-[#1c991c]">ODS 3 - Saúde e Bem-Estar</h4>
+                        <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-[#dc2626]">
+                            <h4 class="text-lg font-bold text-[#dc2626]">ODS 3 - Saúde e Bem-Estar</h4>
                             <p class="text-gray-600 text-sm mt-1">Promoção da saúde física e mental dos alunos e servidores.</p>
                         </div>
                         <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-[#26BDE2]">
@@ -202,6 +202,42 @@
                 </p>
             </div>
         </section>
+
+        <section id="contact-form" class="py-12 md:py-20 bg-white fade-in-section">
+            <div class="container mx-auto px-4 md:px-6">
+                <div class="text-center mb-8 md:mb-12">
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Fale Conosco / Envie Suas Sugestões</h2>
+                    <p class="text-base md:text-lg text-gray-600 mt-2">Sua opinião é importante para continuarmos aprimorando nosso ambiente escolar.</p>
+                </div>
+                <div class="max-w-xl mx-auto bg-white p-8 rounded-lg shadow-lg border border-gray-200">
+                    <form id="contact-form-element" name="contact" method="POST" data-netlify="true" action="success.html">
+                        <input type="hidden" name="form-name" value="contact" />
+                        <div class="mb-4">
+                            <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Nome (Opcional):</label>
+                            <input type="text" id="name" name="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-teal-500 bg-white">
+                        </div>
+                        <div class="mb-4">
+                            <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email (Opcional):</label>
+                            <input type="email" id="email" name="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-teal-500 bg-white">
+                        </div>
+                        <div class="mb-4">
+                            <label for="subject" class="block text-gray-700 text-sm font-bold mb-2">Assunto:</label>
+                            <input type="text" id="subject" name="subject" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-teal-500 bg-white" required>
+                        </div>
+                        <div class="mb-6">
+                            <label for="message" class="block text-gray-700 text-sm font-bold mb-2">Mensagem:</label>
+                            <textarea id="message" name="message" rows="5" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-teal-500 bg-white" required></textarea>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <button type="submit" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200 ease-in-out">
+                                Enviar Mensagem
+                            </button>
+                        </div>
+                    </form>
+                    <div id="form-feedback" class="mt-4 text-center"></div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer class="bg-gray-800 text-white py-8 border-t border-gray-700 mt-12">
@@ -243,7 +279,7 @@
                 datasets: [{
                     label: 'Nível de Criticidade',
                     data: [9, 7, 4, 9, 7, 1],
-                    backgroundColor: ['#1c991c', '#06b6d4', '#facc15', '#be185d', '#f97316', '#b45309'],
+                    backgroundColor: ['#dc2626', '#06b6d4', '#facc15', '#be185d', '#f97316', '#b45309'],
                     borderRadius: 4
                 }]
             },
@@ -260,13 +296,11 @@
             }
         });
 
-        // adiciona o evento de clique para re-animar o gráfico de pizza
         pieCtx.canvas.addEventListener('click', () => {
             pieChart.reset();
             pieChart.update();
         });
 
-        // Adiciona o evento de clique para re-animar o gráfico de barras
         barCtx.canvas.addEventListener('click', () => {
             barChart.reset();
             barChart.update();
@@ -290,6 +324,48 @@
         if (mobileMenuBtn && mobileMenu) {
             mobileMenuBtn.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
+            });
+        }
+
+        // Mesma lógica do form
+        const contactForm = document.getElementById('contact-form-element');
+        const formFeedback = document.getElementById('form-feedback');
+
+        if (contactForm && formFeedback) {
+            contactForm.addEventListener('submit', (event) => {
+                event.preventDefault(); 
+
+                const form = event.target;
+                const formData = new FormData(form);
+                const submitButton = form.querySelector('button[type="submit"]');
+                
+                submitButton.disabled = true;
+                submitButton.textContent = 'Enviando...';
+                formFeedback.textContent = '';
+
+                fetch(form.action, {
+                    method: form.method,
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams(formData).toString()
+                })
+                .then(response => {
+                    if (response.ok) {
+                        form.reset();
+                        formFeedback.textContent = 'Obrigado! Sua mensagem foi enviada com sucesso.';
+                        formFeedback.className = 'mt-4 text-center text-green-700'; 
+                    } else {
+                        throw new Error('Houve um problema com o envio. Tente novamente mais tarde.');
+                    }
+                })
+                .catch(error => {
+                    formFeedback.textContent = 'Erro ao enviar a mensagem. Por favor, verifique sua conexão e tente novamente.';
+                    formFeedback.className = 'mt-4 text-center text-red-700';
+                    console.error('Erro no envio do formulário:', error);
+                })
+                .finally(() => {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Enviar Mensagem';
+                });
             });
         }
     </script>
