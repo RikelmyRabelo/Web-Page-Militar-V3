@@ -12,7 +12,7 @@
 </head>
 <body class="bg-gray-50 text-gray-800 font-inter">
 
-    <header class="bg-white shadow-sm sticky top-0 z-50">
+    <header class="bg-white shadow-sm sticky top-0 z-50 transition-transform duration-300 ease-in-out">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="index.html" class="flex flex-col sm:flex-row sm:items-center space-x-0 sm:space-x-4">
                 <div class="flex items-center space-x-2">
@@ -114,7 +114,7 @@
 
     <footer class="bg-gray-900 text-gray-400 py-10 text-center">
         <div class="container mx-auto px-6">
-            <img src="assets/images/logoUema.jpg" alt="UEMA" class="h-16 mx-auto mb-6 opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all">
+            <img src="assets/images/logoUema.jpg" alt="UEMA" class="h-16 mx-auto mb-6 opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all rounded-full">
             <p>Repositório Acadêmico CMT XV.</p>
             <p class="text-sm md:text-base">© 2025 - Grupo de Análise e Desenvolvimento de Sistemas. Todos os direitos reservados.</p>
         <p class="text-xs md:text-sm text-gray-400 mt-1 md:mt-2">Guilherme Moreira Santos, José Ribamar Andrade Santos Júnior, Marina de Jesus Lima Muniz e Rikelmy Rabelo Freitas.</p>
@@ -127,6 +127,16 @@
         if (mobileMenuBtn && mobileMenu) {
             mobileMenuBtn.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
+            });
+        }
+
+        const mainHeader = document.querySelector('header');
+        if (mainHeader) {
+            let lastScrollY = 0;
+            window.addEventListener('scroll', () => {
+                const shouldHide = window.scrollY > lastScrollY && window.scrollY > mainHeader.offsetHeight;
+                mainHeader.classList.toggle('header-hidden', shouldHide);
+                lastScrollY = window.scrollY;
             });
         }
     </script>

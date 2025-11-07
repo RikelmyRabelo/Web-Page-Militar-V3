@@ -116,8 +116,8 @@
 
                 <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
                     <div class="lg:col-span-2 space-y-4">
-                        <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-[#4C9F38]">
-                            <h4 class="text-lg font-bold text-[#4C9F38]">ODS 3 - Saúde e Bem-Estar</h4>
+                        <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-[#1c991c]">
+                            <h4 class="text-lg font-bold text-[#1c991c]">ODS 3 - Saúde e Bem-Estar</h4>
                             <p class="text-gray-600 text-sm mt-1">Promoção da saúde física e mental dos alunos e servidores.</p>
                         </div>
                         <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-[#26BDE2]">
@@ -217,7 +217,7 @@
 
         // GRÁFICO DE PIZZA
         const pieCtx = document.getElementById('pieChart').getContext('2d');
-        new Chart(pieCtx, {
+        const pieChart = new Chart(pieCtx, {
             type: 'pie',
             data: {
                 labels: ['Pontos Positivos', 'Pontos Negativos'],
@@ -233,16 +233,17 @@
                 }
             }
         });
+
         // GRÁFICO DE BARRAS HORIZONTAIS
         const barCtx = document.getElementById('barChart').getContext('2d');
-        new Chart(barCtx, {
+        const barChart = new Chart(barCtx, {
             type: 'bar',
             data: {
                 labels: ['ODS 3 - Saúde', 'ODS 6 - Água', 'ODS 7 - Energia', 'ODS 8 - Trabalho', 'ODS 11 - Cidades', 'ODS 12 - Consumo'],
                 datasets: [{
                     label: 'Nível de Criticidade',
                     data: [9, 7, 4, 9, 7, 1],
-                    backgroundColor: ['#dc2626', '#06b6d4', '#facc15', '#be185d', '#f97316', '#b45309'],
+                    backgroundColor: ['#1c991c', '#06b6d4', '#facc15', '#be185d', '#f97316', '#b45309'],
                     borderRadius: 4
                 }]
             },
@@ -257,6 +258,18 @@
                 },
                 plugins: { legend: { display: false } }
             }
+        });
+
+        // adiciona o evento de clique para re-animar o gráfico de pizza
+        pieCtx.canvas.addEventListener('click', () => {
+            pieChart.reset();
+            pieChart.update();
+        });
+
+        // Adiciona o evento de clique para re-animar o gráfico de barras
+        barCtx.canvas.addEventListener('click', () => {
+            barChart.reset();
+            barChart.update();
         });
 
         const animatedSections = document.querySelectorAll('.fade-in-section');

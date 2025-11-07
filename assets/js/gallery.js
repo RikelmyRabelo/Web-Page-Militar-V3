@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Ativa o link de navegação correto no header com base na URL atual
     const currentPath = window.location.pathname.split('/').pop();
-    if (currentPath === 'images.html' || currentPath === 'gallery-cmt-xv.html') {
+    if (currentPath === 'images.html' || currentPath === 'gallery.html') {
         activateNavLink('images.html');
     }
 });
