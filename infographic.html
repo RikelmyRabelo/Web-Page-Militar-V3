@@ -14,7 +14,7 @@
 </head>
 <body class="bg-gray-50 text-gray-800">
 
-    <header class="bg-white shadow-md sticky top-0 z-50">
+    <header class="bg-white shadow-md sticky top-0 z-50 transition-transform duration-300 ease-in-out">
         <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
             <a href="index.html" class="flex flex-col sm:flex-row sm:items-center space-x-0 sm:space-x-4">
                 <div class="flex items-center space-x-2">
@@ -27,8 +27,11 @@
             </a>
             <div class="hidden md:flex space-x-8 items-center">
                 <a href="index.html" class="text-gray-600 hover:text-teal-600 font-medium">Início</a>
-                <a href="projects.html" class="text-gray-600 hover:text-teal-600 font-medium">Projetos</a>
-                <span class="text-teal-700 font-bold border-b-2 border-teal-700">Painel ODS</span>
+                <a href="#overview" class="text-gray-600 hover:text-teal-600 font-medium nav-active">Sobre Painel</a>
+                <a href="#diagnostico" class="text-gray-600 hover:text-teal-600 font-medium">Diagnóstico Geral</a>
+                <a href="#ods" class="text-gray-600 hover:text-teal-600 font-medium">ODS</a>
+                <a href="#propostas" class="text-gray-600 hover:text-teal-600 font-medium">Propostas</a>
+                <a href="#contact-form" class="text-gray-600 hover:text-teal-600 font-medium">Contato</a>
             </div>
             <div class="md:hidden">
                 <button id="mobile-menu-button" class="text-gray-600 hover:text-teal-600 focus:outline-none">
@@ -38,8 +41,11 @@
         </nav>
         <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100">
             <a href="index.html" class="block py-3 px-4 text-sm text-gray-600 hover:bg-teal-50">Início</a>
-            <a href="projects.html" class="block py-3 px-4 text-sm text-gray-600 hover:bg-teal-50">Projetos</a>
-            <span class="block py-3 px-4 text-sm font-bold text-teal-700 bg-teal-50">Painel ODS</span>
+            <a href="#overview" class="block py-3 px-4 text-sm font-bold text-teal-700 bg-teal-50">Sobre Painel</a>
+            <a href="#diagnostico" class="block py-3 px-4 text-sm text-gray-600 hover:bg-teal-50">Diagnóstico Geral</a>
+            <a href="#ods" class="block py-3 px-4 text-sm text-gray-600 hover:bg-teal-50">ODS</a>
+            <a href="#propostas" class="block py-3 px-4 text-sm text-gray-600 hover:bg-teal-50">Propostas</a>
+            <a href="#contact-form" class="block py-3 px-4 text-sm text-gray-600 hover:bg-teal-50">Contato</a>
         </div>
     </header>
 
@@ -63,7 +69,7 @@
             </div>
         </section>
 
-        <section class="py-12 md:py-20 fade-in-section">
+        <section id="diagnostico" class="py-12 md:py-20 fade-in-section">
             <div class="container mx-auto px-4 md:px-6">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     <div>
@@ -105,7 +111,7 @@
             </div>
         </section>
 
-        <section class="py-12 md:py-20 bg-gray-100 fade-in-section">
+        <section id="ods" class="py-12 md:py-20 bg-gray-100 fade-in-section">
             <div class="container mx-auto px-4 md:px-6">
                 <div class="text-center mb-12">
                     <h2 class="text-2xl md:text-3xl font-bold text-teal-800">ODS Relacionados & Criticidade</h2>
@@ -152,7 +158,7 @@
             </div>
         </section>
 
-        <section class="py-12 md:py-20 fade-in-section">
+        <section id="propostas" class="py-12 md:py-20 fade-in-section">
             <div class="container mx-auto px-4 md:px-6">
                 <div class="text-center mb-12">
                     <h2 class="text-2xl md:text-3xl font-bold text-teal-800">Propostas de Melhoria</h2>
@@ -270,7 +276,7 @@
             }
         });
 
-        // GRÁFICO DE BARRAS HORIZONTAIS
+        // GRÁFICO DE BARRAS
         const barCtx = document.getElementById('barChart').getContext('2d');
         const barChart = new Chart(barCtx, {
             type: 'bar',
@@ -319,21 +325,13 @@
             animatedSections.forEach(section => observer.observe(section));
         }
 
-        const mobileMenuBtn = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        if (mobileMenuBtn && mobileMenu) {
-            mobileMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-        }
-
-        // Mesma lógica do form
+        // LÓGICA DO FORM
         const contactForm = document.getElementById('contact-form-element');
         const formFeedback = document.getElementById('form-feedback');
 
         if (contactForm && formFeedback) {
             contactForm.addEventListener('submit', (event) => {
-                event.preventDefault(); 
+                event.preventDefault();
 
                 const form = event.target;
                 const formData = new FormData(form);
@@ -352,14 +350,14 @@
                     if (response.ok) {
                         form.reset();
                         formFeedback.textContent = 'Obrigado! Sua mensagem foi enviada com sucesso.';
-                        formFeedback.className = 'mt-4 text-center text-green-700'; 
+                        formFeedback.className = 'mt-4 text-center text-green-700';
                     } else {
                         throw new Error('Houve um problema com o envio. Tente novamente mais tarde.');
                     }
                 })
                 .catch(error => {
                     formFeedback.textContent = 'Erro ao enviar a mensagem. Por favor, verifique sua conexão e tente novamente.';
-                    formFeedback.className = 'mt-4 text-center text-red-700';
+                    formFeedback.className = 'mt-4 text-center text-red-700'; 
                     console.error('Erro no envio do formulário:', error);
                 })
                 .finally(() => {
@@ -367,6 +365,60 @@
                     submitButton.textContent = 'Enviar Mensagem';
                 });
             });
+        }
+
+        const mainHeader = document.querySelector('header');
+        if (mainHeader) {
+            let lastScrollY = 0;
+            
+            window.addEventListener('scroll', () => {
+                const shouldHide = window.scrollY > lastScrollY && window.scrollY > mainHeader.offsetHeight;
+                mainHeader.classList.toggle('header-hidden', shouldHide);
+                lastScrollY = window.scrollY;
+            });
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+                mobileMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+                });
+            }
+            const sections = document.querySelectorAll('main section[id]');
+            const navLinksDesktop = mainHeader.querySelectorAll('.hidden.md\\:flex a[href^="#"]');
+            const navLinksMobile = mainHeader.querySelectorAll('#mobile-menu a[href^="#"]');
+            
+            if (sections.length > 0) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const id = entry.target.getAttribute('id');
+
+                            navLinksDesktop.forEach(link => {
+                                link.classList.remove('nav-active');
+                                if (link.getAttribute('href') === `#${id}`) {
+                                    link.classList.add('nav-active');
+                                }
+                            });
+
+                            navLinksMobile.forEach(link => {
+                                link.classList.remove('text-teal-700', 'font-bold', 'bg-teal-50');
+                                link.classList.add('text-gray-600', 'hover:bg-teal-50');
+                                if (link.getAttribute('href') === `#${id}`) {
+                                    link.classList.add('text-teal-700', 'font-bold', 'bg-teal-50');
+                                    link.classList.remove('text-gray-600', 'hover:bg-teal-50');
+                                }
+                            });
+                        }
+                    });
+                }, { rootMargin: '0px 0px -50% 0px' });
+
+                sections.forEach(section => observer.observe(section));
+            }
         }
     </script>
 </body>
